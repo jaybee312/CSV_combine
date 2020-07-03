@@ -1,0 +1,46 @@
+---
+title: "data.table - combine CSVs"
+output: html_document
+---
+
+
+
+## Setup
+
+```{r setup}
+
+knitr::opts_knit$set(root.dir = "~/R/csv_directory" ) 
+
+```
+
+# Create list of CSV files
+
+```{r excel to csv}
+
+csv_files = list.files(pattern = "*.csv")
+csv_files
+
+```
+
+
+# Import and merge files
+
+
+```{r merge}
+
+library(data.table)
+
+csv_list = lapply(csv_files, function(i){
+  x = fread(i)
+  x$file = i
+  x
+})
+
+
+csv_list[1]
+output_df = rbindlist(csv_list, fill = TRUE)
+
+
+```
+
+
